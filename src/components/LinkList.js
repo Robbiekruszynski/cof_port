@@ -10,12 +10,10 @@ const LinkList = () => {
   ];
 
   return (
-    <div>
-      <div style={{ background: 'black', color: 'white' }}>
-        {links.map((link, index) => (
-          <LinkCard key={index} title={link.title} url={link.url} background={link.background} />
-        ))}
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {links.map((link, index) => (
+        <LinkCard key={index} title={link.title} url={link.url} />
+      ))}
     </div>
   );
 };

@@ -4,18 +4,19 @@ import { Card, CardContent, CardActionArea, Typography } from '@mui/material';
 const LinkCard = ({ title, url }) => {
   return (
     <Card
-      sx={{
-        marginBottom: '1rem',
-        color: 'white', // Text color set to white
-        backgroundColor: 'black',
-        transition: 'transform 0.3s ease-in-out',
-        borderRadius: '0px',
-        '&:hover': {
-          transform: 'scale(1.1)',
-          color: 'red',
-        },
-      }}
-    >
+    sx={{
+      width: '30%', // Set width to 30% of viewport
+      marginBottom: '1rem',
+      color: 'white',
+      backgroundColor: 'black',
+      transition: 'transform 0.3s ease-in-out',
+      borderRadius: '0px',
+      '&:hover': {
+        transform: 'scale(1.1)',
+        color: 'red',
+      },
+    }}
+  >
       <CardActionArea
         sx={{
           height: '60px',
