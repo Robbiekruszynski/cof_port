@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 
-/// Sphere component
+// Sphere component
 const Sphere = ({ onClick }) => {
   const meshRef = useRef();
   const [isDragging, setIsDragging] = useState(false);
@@ -17,16 +17,22 @@ const Sphere = ({ onClick }) => {
   `;
 
   const fragmentShader = `
+    uniform float hovered;
     varying vec3 vUv;
     void main() {
-      gl_FragColor = vec4(vUv * 0.5 + vec3(0.0, 0.5, 0.5), 1.0);  // Added a gradient effect
+      if (hovered > 0.5) {
+        gl_FragColor = vec4(vUv * 0.5 + vec3(0.0, 0.5, 0.5), 1.0);
+      } else {
+        gl_FragColor = vec4(vUv * 0.5 + vec3(0.5, 0.0, 0.0), 1.0); // Gradient when not hovered
+      }
     }
   `;
 
   useFrame(() => {
-    if (meshRef.current && !isDragging) {
+    if (meshRef.current) {
       meshRef.current.rotation.x += 0.1;
       meshRef.current.rotation.y += 0.1;
+      meshRef.current.material.uniforms.hovered.value = hovered ? 1.0 : 0.0;
     }
   });
 
@@ -59,8 +65,11 @@ const Sphere = ({ onClick }) => {
       onPointerMove={doDrag}
     >
       <sphereGeometry args={[1, 32, 32]} />
-      <shaderMaterial vertexShader={vertexShader} fragmentShader={fragmentShader} />
-      <meshBasicMaterial wireframe={true} color={hovered ? 'hotpink' : 'white'} />
+      <shaderMaterial 
+        vertexShader={vertexShader} 
+        fragmentShader={fragmentShader}
+        uniforms={{ hovered: { value: 0.0 } }} // Initialize with 0
+      />
     </mesh>
   );
 };
@@ -79,6 +88,10 @@ const SphereModel = ({ onClick }) => {
 };
 
 export default SphereModel;
+
+
+
+
 
 
 
