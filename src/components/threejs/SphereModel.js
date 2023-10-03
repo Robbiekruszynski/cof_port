@@ -1,0 +1,90 @@
+import React, { useRef, useState } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+
+/// Sphere component
+const Sphere = ({ onClick }) => {
+  const meshRef = useRef();
+  const [isDragging, setIsDragging] = useState(false);
+  const [previousMousePosition, setPreviousMousePosition] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
+
+  const vertexShader = `
+    varying vec3 vUv; 
+    void main() {
+      vUv = position; 
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `;
+
+  const fragmentShader = `
+    varying vec3 vUv;
+    void main() {
+      gl_FragColor = vec4(vUv * 0.5 + vec3(0.0, 0.5, 0.5), 1.0);  // Added a gradient effect
+    }
+  `;
+
+  useFrame(() => {
+    if (meshRef.current && !isDragging) {
+      meshRef.current.rotation.x += 0.1;
+      meshRef.current.rotation.y += 0.1;
+    }
+  });
+
+  const startDragging = (e) => {
+    setIsDragging(true);
+    setPreviousMousePosition({ x: e.clientX, y: e.clientY });
+  };
+
+  const stopDragging = () => {
+    setIsDragging(false);
+  };
+
+  const doDrag = (e) => {
+    if (!isDragging) return;
+    const xDifference = e.clientX - previousMousePosition.x;
+    const yDifference = e.clientY - previousMousePosition.y;
+    meshRef.current.rotation.x += yDifference * 0.01;
+    meshRef.current.rotation.y += xDifference * 0.01;
+    setPreviousMousePosition({ x: e.clientX, y: e.clientY });
+  };
+
+  return (
+    <mesh
+      ref={meshRef}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+      onClick={onClick}
+      onPointerDown={startDragging}
+      onPointerUp={stopDragging}
+      onPointerMove={doDrag}
+    >
+      <sphereGeometry args={[1, 32, 32]} />
+      <shaderMaterial vertexShader={vertexShader} fragmentShader={fragmentShader} />
+      <meshBasicMaterial wireframe={true} color={hovered ? 'hotpink' : 'white'} />
+    </mesh>
+  );
+};
+
+// Main SphereModel component
+const SphereModel = ({ onClick }) => {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Canvas style={{ width: '1000px', height: '1000px', cursor: 'pointer' }}>
+        <ambientLight />
+        <pointLight position={[10, 10, 10]} />
+        <Sphere onClick={onClick} />
+      </Canvas>
+    </div>
+  );
+};
+
+export default SphereModel;
+
+
+
+
+
+
+
+
+
