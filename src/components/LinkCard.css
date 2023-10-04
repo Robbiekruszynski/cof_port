@@ -1,0 +1,78 @@
+/* LinkCard.css */
+
+.custom-button {
+    border-style: none;
+    height: 60px;
+    background: none;
+    border: none;
+    padding: 0 60px;
+    color: #000000;
+    font-size: 24px;
+    outline: none;
+    position: relative;
+  }
+  
+  .custom-button:before {
+    content: "";
+    width: 85%;
+    height: 30px;
+    display: block;
+    border-top: 2px solid;
+    border-right: 2px solid;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  
+  .custom-button:after {
+    content: "";
+    width: 85%;
+    height: 30px;
+    display: block;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+  
+  .custom-button span {
+    display: block;
+  }
+  
+  .custom-button span:before {
+    content: "";
+    width: 38px;
+    height: 2px;
+    background: #000;
+    position: absolute;
+    left: -5px;
+    top: 14px;
+    transform: rotate(-46deg);
+  }
+  
+  .custom-button span:after {
+    content: "";
+    width: 38px;
+    height: 2px;
+    background: #000;
+    position: absolute;
+    right: -5px;
+    bottom: 14px;
+    transform: rotate(-46deg);
+  }
+  
+  .custom-button:hover {
+    color: red;
+  }
+  
+  .custom-button:hover:before,
+  .custom-button:hover:after {
+    border-color: red;
+  }
+  
+  .custom-button:hover span:before,
+  .custom-button:hover span:after {
+    background: red;
+  }
+  
