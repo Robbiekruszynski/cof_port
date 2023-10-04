@@ -7,7 +7,7 @@ function App() {
   const [showLinks, setShowLinks] = useState(false);
 
   return (
-    <div style={{ backgroundColor: 'black', minHeight: '100vh', color: 'white', textAlign: 'center' }}>
+    <div style={{ backgroundColor: 'black', minHeight: '100vh', color: 'black', textAlign: 'center' }}>
       {!showLinks && <SphereComponent onClick={() => setShowLinks(true)} />}
       {showLinks && (
         <>
