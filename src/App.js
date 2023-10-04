@@ -11,8 +11,10 @@ function App() {
       {!showLinks && <SphereComponent onClick={() => setShowLinks(true)} />}
       {showLinks && (
         <>
+  
           <Header />
           <LinkList />
+
         </>
       )}
     </div>

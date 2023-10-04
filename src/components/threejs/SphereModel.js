@@ -1,10 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { makeStyles } from '@mui/styles';
+import * as THREE from 'three';
 
-
-// Sphere component
-const Sphere = ({ onClick }) => {
+const SphereBlob = ({ onClick }) => {
   const meshRef = useRef();
   const wireframeMeshRef = useRef();
   const [isDragging, setIsDragging] = useState(false);
@@ -12,9 +10,9 @@ const Sphere = ({ onClick }) => {
   const [hovered, setHovered] = useState(false);
 
   const vertexShader = `
-    varying vec3 vUv; 
+    varying vec3 vUv;
     void main() {
-      vUv = position; 
+      vUv = position;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `;
@@ -26,15 +24,32 @@ const Sphere = ({ onClick }) => {
       if (hovered > 0.5) {
         gl_FragColor = vec4(vUv * 0.5 + vec3(0.0, 0.5, 0.5), 1.0);
       } else {
-        gl_FragColor = vec4(vUv * 0.5 + vec3(0.5, 0.0, 0.0), 1.0); // Gradient when not hovered
+        gl_FragColor = vec4(vUv * 0.5 + vec3(0.5, 0.0, 0.0), 1.0);
       }
     }
   `;
 
+  // Create a blobGeometry using IcosahedronGeometry
+  const blobGeometry = new THREE.IcosahedronGeometry(1, 2);
+
+  // Modify the vertex positions to create the blob-like shape
+  const blobVertices = blobGeometry.attributes.position.array;
+  for (let i = 0; i < blobVertices.length; i += 3) {
+    const x = blobVertices[i];
+    const y = blobVertices[i + 1];
+    const z = blobVertices[i + 2];
+    const scaleFactor = 1 + Math.random() * 0.3; // Adjust the factor for blobbiness
+    blobVertices[i] = x * scaleFactor;
+    blobVertices[i + 1] = y * scaleFactor;
+    blobVertices[i + 2] = z * scaleFactor;
+  }
+
+  blobGeometry.computeVertexNormals();
+
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.rotation.x += 0.1;
-      meshRef.current.rotation.y += 0.1;
+      meshRef.current.rotation.x += 0.03;
+      meshRef.current.rotation.y += 0.03;
       meshRef.current.material.uniforms.hovered.value = hovered ? 1.0 : 0.0;
       meshRef.current.scale.set(hovered ? 1.2 : 1, hovered ? 1.2 : 1, hovered ? 1.2 : 1);
     }
@@ -72,35 +87,34 @@ const Sphere = ({ onClick }) => {
         onPointerUp={stopDragging}
         onPointerMove={doDrag}
       >
-        <sphereGeometry args={[1, 32, 32]} />
-        <shaderMaterial 
-          vertexShader={vertexShader} 
-          fragmentShader={fragmentShader}
-          uniforms={{ hovered: { value: 0.0 } }} // Initialize with 0
-        />
+        <bufferGeometry attach="geometry" {...blobGeometry} />
+        <shaderMaterial vertexShader={vertexShader} fragmentShader={fragmentShader} uniforms={{ hovered: { value: 0.0 } }} />
       </mesh>
       <mesh ref={wireframeMeshRef} visible={false}>
-        <sphereGeometry args={[1, 32, 32]} />
+        <bufferGeometry attach="geometry" {...blobGeometry} />
         <meshBasicMaterial wireframe={true} color="white" />
       </mesh>
     </>
   );
 };
 
-// Main SphereModel component
-const SphereModel = ({ onClick }) => {
+const SphereModelBlob = ({ onClick }) => {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Canvas style={{ width: '1000px', height: '1000px', cursor: 'pointer' }}>
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
-        <Sphere onClick={onClick} />
+        <SphereBlob onClick={onClick} />
       </Canvas>
     </div>
   );
 };
 
-export default SphereModel;
+export default SphereModelBlob;
+
+
+
+
 
 
 
