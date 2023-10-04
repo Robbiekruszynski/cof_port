@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
+import { makeStyles } from '@mui/styles';
+
 
 // Sphere component
 const Sphere = ({ onClick }) => {

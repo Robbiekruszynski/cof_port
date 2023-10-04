@@ -1,12 +1,1 @@
-import { createTheme } from '@mui/material/styles';
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
-
-export default theme;
-
-
-//wip
+// keep if light mode and dark moode are wanted in the future. 
