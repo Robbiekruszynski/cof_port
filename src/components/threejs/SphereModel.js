@@ -29,27 +29,23 @@ const SphereBlob = ({ onClick }) => {
     }
   `;
 
-  // Create a blobGeometry using IcosahedronGeometry
   const blobGeometry = new THREE.IcosahedronGeometry(1, 2);
-
-  // Modify the vertex positions to create the blob-like shape
   const blobVertices = blobGeometry.attributes.position.array;
   for (let i = 0; i < blobVertices.length; i += 3) {
     const x = blobVertices[i];
     const y = blobVertices[i + 1];
     const z = blobVertices[i + 2];
-    const scaleFactor = 1 + Math.random() * 0.3; // Adjust the factor for blobbiness
+    const scaleFactor = 1 + Math.random() * 0.3;
     blobVertices[i] = x * scaleFactor;
     blobVertices[i + 1] = y * scaleFactor;
     blobVertices[i + 2] = z * scaleFactor;
   }
-
   blobGeometry.computeVertexNormals();
 
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.rotation.x += 0.03;
-      meshRef.current.rotation.y += 0.03;
+      meshRef.current.rotation.x += 0.01;
+      meshRef.current.rotation.y += 0.01;
       meshRef.current.material.uniforms.hovered.value = hovered ? 1.0 : 0.0;
       meshRef.current.scale.set(hovered ? 1.2 : 1, hovered ? 1.2 : 1, hovered ? 1.2 : 1);
     }
@@ -92,7 +88,7 @@ const SphereBlob = ({ onClick }) => {
       </mesh>
       <mesh ref={wireframeMeshRef} visible={false}>
         <bufferGeometry attach="geometry" {...blobGeometry} />
-        <meshBasicMaterial wireframe={true} color="white" />
+        <meshBasicMaterial wireframe={true} color="black" scale={[0.1, 0.1, 0.1]} /> {/* Adjust the scale here */}
       </mesh>
     </>
   );
@@ -111,21 +107,3 @@ const SphereModelBlob = ({ onClick }) => {
 };
 
 export default SphereModelBlob;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
