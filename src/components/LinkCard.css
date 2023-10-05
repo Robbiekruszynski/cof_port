@@ -44,22 +44,22 @@
     content: "";
     width: 38px;
     height: 2px;
-    background: #000;
+    background: #FFFFFF;
     position: absolute;
     left: -5px;
     top: 14px;
-    transform: rotate(-46deg);
+    transform: rotate(-45deg);
   }
   
   .custom-button span:after {
     content: "";
     width: 38px;
     height: 2px;
-    background: #000;
+    background: #FFFFFF;
     position: absolute;
     right: -5px;
     bottom: 14px;
-    transform: rotate(-46deg);
+    transform: rotate(-45deg);
   }
   
   .custom-button:hover {

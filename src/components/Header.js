@@ -10,7 +10,7 @@ const Header = () => {
       </Box>
       <Box mt={2}> {/* Add margin to create spacing between Typography and Avatar */}
         <Typography variant="h4" gutterBottom>
-          Caron Schaller
+          Caron Fire
         </Typography>
       </Box>
     </Box>

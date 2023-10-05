@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+
 import * as THREE from 'three';
 
 const SphereBlob = ({ onClick }) => {
@@ -101,9 +103,22 @@ const SphereModelBlob = ({ onClick }) => {
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <SphereBlob onClick={onClick} />
+        {/* Add OrbitControls */}
+        <OrbitControls
+          enableZoom={true} // Enable zooming
+          enablePan={true} // Enable panning
+          enableRotate={true} // Enable rotating
+          zoomSpeed={0.5} // Adjust zoom speed as needed
+        />
       </Canvas>
     </div>
   );
 };
 
 export default SphereModelBlob;
+
+
+
+
+
+
