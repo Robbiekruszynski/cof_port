@@ -63,6 +63,8 @@
   }
   
   .custom-button:hover {
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
     color: red;
   }
   
@@ -75,4 +77,5 @@
   .custom-button:hover span:after {
     background: red;
   }
+  
   

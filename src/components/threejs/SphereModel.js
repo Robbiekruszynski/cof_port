@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-
 import * as THREE from 'three';
+import { OrbitControls } from '@react-three/drei';
 
 const SphereBlob = ({ onClick }) => {
   const meshRef = useRef();
+  const cubeRef = useRef();
   const wireframeMeshRef = useRef();
   const [isDragging, setIsDragging] = useState(false);
   const [previousMousePosition, setPreviousMousePosition] = useState({ x: 0, y: 0 });
@@ -54,6 +54,11 @@ const SphereBlob = ({ onClick }) => {
     if (wireframeMeshRef.current) {
       wireframeMeshRef.current.visible = hovered;
     }
+
+    if (cubeRef.current) {
+      cubeRef.current.rotation.x += 0.02;
+      cubeRef.current.rotation.y += 0.02;
+    }
   });
 
   const startDragging = (e) => {
@@ -90,8 +95,18 @@ const SphereBlob = ({ onClick }) => {
       </mesh>
       <mesh ref={wireframeMeshRef} visible={false}>
         <bufferGeometry attach="geometry" {...blobGeometry} />
-        <meshBasicMaterial wireframe={true} color="black" scale={[0.1, 0.1, 0.1]} /> {/* Adjust the scale here */}
+        <meshBasicMaterial wireframe={true} color="black" scale={[0.1, 0.1, 0.1]} />
       </mesh>
+      {/* Add the cube with different colors on each side */}
+      <mesh ref={cubeRef} position={[0, 0, 2]}>
+  <boxGeometry args={[0.2, 0.2, 0.2]} />
+  <meshBasicMaterial attachArray="material" color="red" />
+  <meshBasicMaterial attachArray="material" color="green" />
+  <meshBasicMaterial attachArray="material" color="blue" />
+  <meshBasicMaterial attachArray="material" color="white" />
+  <meshBasicMaterial attachArray="material" color="purple" />
+  <meshBasicMaterial attachArray="material" color="orange" />
+    </mesh>
     </>
   );
 };
@@ -103,12 +118,11 @@ const SphereModelBlob = ({ onClick }) => {
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
         <SphereBlob onClick={onClick} />
-        {/* Add OrbitControls */}
         <OrbitControls
-          enableZoom={true} // Enable zooming
-          enablePan={true} // Enable panning
-          enableRotate={true} // Enable rotating
-          zoomSpeed={0.5} // Adjust zoom speed as needed
+          enableZoom={true}
+          enablePan={true}
+          enableRotate={true}
+          zoomSpeed={0.5}
         />
       </Canvas>
     </div>
@@ -116,9 +130,4 @@ const SphereModelBlob = ({ onClick }) => {
 };
 
 export default SphereModelBlob;
-
-
-
-
-
 
